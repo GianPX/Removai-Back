@@ -9,8 +9,7 @@ export class AppService {
   }
 
   async removeBackground(video: Express.Multer.File){
-    const response:String = await this.axios.post('http://127.0.0.1:5000/removebg',{videoUrl: video.path})
-    console.log(response)
+    const response:string = await this.axios.post('http://127.0.0.1:5000/removebg',{videoUrl: video.path})
     return response
   }
 }
