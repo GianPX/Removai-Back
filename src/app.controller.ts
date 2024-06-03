@@ -15,8 +15,8 @@ export class AppController {
 
   @Get('greet')
   @ApiResponse({ status: 201, description: 'User Registered', type: String})
-  getHello(): string {
-    return this.appService.getHello();
+  async getHello() {
+    return await this.appService.getHello();
   }
 
   @Post('upload')
@@ -31,8 +31,12 @@ export class AppController {
     }),
     limits: {fieldSize: 30000000}
   }))
-  async removeBackground(@UploadedFile() video: Express.Multer.File, @Res() res:Response){
-    const uploadFolder = readdirSync(this.uploadFolderPath)
+  async removeBackground(@UploadedFile() video: Express.Multer.File){
+    const result:string = await this.appService.removeBackground(video)
+    return {
+      url: result
+    }
+    /*const uploadFolder = readdirSync(this.uploadFolderPath)
     for(const file of uploadFolder){
       if(file != video.filename){
         const filePath = join(this.uploadFolderPath,file)
@@ -45,7 +49,7 @@ export class AppController {
       'Content-Type': 'video/mp4',
       'Content-Disposition': 'inline'
     });
-    res.send(videoBuffer);
+    res.send(videoBuffer);*/
     
   }
 
